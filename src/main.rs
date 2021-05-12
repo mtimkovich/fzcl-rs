@@ -48,10 +48,15 @@ fn round(minutes: u32) -> (u32, bool) {
 }
 
 fn fuzzy(now: DateTime<Local>) -> String {
-    let (_, hours) = now.hour12();
+    let (_, mut hours) = now.hour12();
     let minutes = now.minute();
+    let mut glue = "past";
     let (rounded, up) = round(minutes);
-    let glue = if up { "til" } else { "past" };
+
+    if up {
+        hours += 1;
+        glue = "til";
+    }
 
     if rounded == 0 {
         return format!("{} o'clock", words(hours));
