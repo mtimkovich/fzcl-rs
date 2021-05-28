@@ -1,27 +1,28 @@
 use chrono::{DateTime, Local, Timelike};
 use std::collections::HashMap;
-#[macro_use]
-extern crate lazy_static;
+#[macro_use] extern crate lazy_static;
+#[macro_use] extern crate maplit;
 
 lazy_static! {
     static ref WORDS: HashMap<u32, &'static str> = {
-        let mut m = HashMap::new();
-        m.insert(1, "one");
-        m.insert(2, "two");
-        m.insert(3, "three");
-        m.insert(4, "four");
-        m.insert(5, "five");
-        m.insert(6, "six");
-        m.insert(7, "seven");
-        m.insert(8, "eight");
-        m.insert(9, "nine");
-        m.insert(10, "ten");
-        m.insert(11, "eleven");
-        m.insert(12, "twelve");
-        m.insert(15, "quarter");
-        m.insert(20, "twenty");
-        m.insert(30, "half");
-        m
+        hashmap!{
+            1 => "one",
+            2 => "two",
+            3 => "three",
+            4 => "four",
+            5 => "five",
+            6 => "six",
+            7 => "seven",
+            8 => "eight",
+            9 => "nine",
+            10 => "ten",
+            11 => "eleven",
+            12 => "twelve",
+            15 => "quarter",
+            20 => "twenty",
+            25 => "twenty-five",
+            30 => "half",
+        }
     };
 }
 
@@ -40,10 +41,6 @@ fn round(minutes: u32) -> (u32, bool) {
         up = true;
     }
 
-    if rounded >= 25 && rounded <= 35 {
-        rounded = 30;
-    }
-
     (rounded, up)
 }
 
@@ -59,9 +56,9 @@ fn fuzzy(now: DateTime<Local>) -> String {
     }
 
     if rounded == 0 {
-        return format!("{} o'clock", words(hours));
+        format!("{} o'clock", words(hours))
     } else {
-        return format!("{} {} {}", words(rounded), glue, words(hours));
+        format!("{} {} {}", words(rounded), glue, words(hours))
     }
 }
 
