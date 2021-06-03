@@ -34,7 +34,7 @@ fn round(minutes: u32) -> (u32, bool) {
     let mut rounded = (minutes + 2) % 60 / 5 * 5;
     let mut up = false;
 
-    if rounded > 35 {
+    if rounded >= 35 {
         rounded = 60 - rounded;
         up = true;
     } else if minutes > 30 && rounded == 0 {
@@ -53,6 +53,10 @@ fn fuzzy(now: DateTime<Local>) -> String {
     if up {
         hours += 1;
         glue = "til";
+    }
+
+    if hours > 12 {
+        hours -= 12;
     }
 
     if rounded == 0 {
